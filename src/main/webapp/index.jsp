@@ -21,16 +21,21 @@ pageEncoding="utf-8"%>
 				<%@include file="header.jsp" %>
 			</header>
 			<nav>
-				<div class="row">
-					<div class="col-4">
-						<form action="StudentController" method="get">
-							<input type="submit" name="submit" value="search"/>
-							<input type="text" name="id"  value="" />
-						</form>
+				<form class="row mt-3" action="StudentController" method="get">		
+					<div class="col-1">
+						<input type="submit" class="btn btn-primary" name="submit" value="search"/>
 					</div>
-				</div>
+					<div class="col-2">
+						<input type="text" class="form-control" name="id"  value="" />
+					</div>
+					
+					<div class="col-2">
+						<input type="submit" class="btn btn-success" name="submit" value="add"/>
+					</div>
+					
+				</form>	
 			</nav>
-			<article style="height : 60vh;">
+			<article class="mt-3" style="height : 60vh;">
 				<%@include file="container.jsp" %>
 			</article>
 			

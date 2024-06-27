@@ -32,7 +32,7 @@ public class StudentController extends HttpServlet {
 		Student stu = new Student();
 		List<Student> stuList = null;
 		HttpSession session = request.getSession();
-		if(request.getParameter("submit") != "" && request.getParameter("id") != "" && request.getParameter("submit")!= null) {
+		if(request.getParameter("submit")!= null && request.getParameter("submit").equals("search") && request.getParameter("id") != "") {
 			String id = request.getParameter("id");
 			try {
 				 stu = studao.searchStudent(id);
@@ -41,15 +41,41 @@ public class StudentController extends HttpServlet {
 					 stuList.add(stu);
 				 }	 
 					 session.setAttribute("studentList", stuList );	  
+					 RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+					rd.forward(request, response);	
+						
 			} catch (SQLException e) {	e.printStackTrace(); }
+		}else if(request.getParameter("submit")!= null && request.getParameter("submit").equals("add")) {
+			RequestDispatcher rd=request.getRequestDispatcher("frminputstudent.jsp");
+			rd.forward(request, response);	
+		} else if(request.getParameter("submit")!= null && request.getParameter("submit").equals("save")) {
+			String id = request.getParameter("id");
+			String fname = request.getParameter("fname");
+			String lname = request.getParameter("lname");
+			String tel = request.getParameter("tel");
+			
+			stu = new Student(id,fname,lname,tel);
+			try {
+				studao.addStudent(stu);
+				stuList = (List<Student>) studao.listAllStudent(); // วัตถุ studao ทำการเรียก method listAllStudent()
+				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
+				RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+				rd.forward(request, response);	
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}else {
 			try {
 				stuList = (List<Student>) studao.listAllStudent(); // วัตถุ studao ทำการเรียก method listAllStudent()
-				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList	
+				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
+				RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+				rd.forward(request, response);	
+				
 			} catch (SQLException e) {	e.printStackTrace();	}
 		}
-		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-		rd.forward(request, response);		
+			
 	}
 
 	

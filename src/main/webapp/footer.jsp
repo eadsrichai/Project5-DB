@@ -2,4 +2,4 @@
 	pageEncoding="utf-8"%>
 <%@ page session="true"%>
 
-<div class="bg-success text-white p-3 mt-3 h5 text-center">ออกแแบบและพัฒนาโดย นายวุฒิวงศ์ เอียดศรีชาย</div>
+<div class="bg-success p-2 text-dark bg-opacity-10  mt-3 h6 text-center">ออกแแบบและพัฒนาโดย นายวุฒิวงศ์ เอียดศรีชาย</div>

@@ -43,7 +43,7 @@
         </fieldset>
         <div class="row p-3">
             <div class="col-2">
-                <input type="submit" class="btn btn-primary" name="submit" value="บันทึกข้อมูล"/>
+                <input type="submit" class="btn btn-primary" name="submit" value="save"/>
             </div>
             
         </div>
