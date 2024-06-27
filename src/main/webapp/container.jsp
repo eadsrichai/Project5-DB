@@ -32,6 +32,7 @@
 <% }else {  %>
 <div class="alert alert-warning mt-3 p-3 h2">
 	<span>
-		<% out.print("ไม่พบข้อมูลที่ค้นหา"); }  %>
+		<% out.print("ไม่พบข้อมูลที่ค้นหา");   %>
 	</span>
 </div>
+<% } %>
