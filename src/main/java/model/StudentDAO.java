@@ -25,17 +25,19 @@ public class StudentDAO {
 	        PreparedStatement pStatement = con.prepareStatement(sql);
 
 	        ResultSet resultSet = pStatement.executeQuery();
-	        Dep dep = new Dep();
+	        Dep dep;
 	        
 	        while (resultSet.next()) {
 	            String id = resultSet.getString("id");
 	            String fname = resultSet.getString("fname");
 	            String lname = resultSet.getString("lname");
 	            String tel = resultSet.getString("tel");
+	            dep =  new Dep();
 	            dep.setId_dep(resultSet.getString("id_dep"));
 	            dep.setName_dep(resultSet.getString("name_dep"));
 	             
 	            Student stu = new Student(id, fname, lname, tel,dep);
+	      
 	            listStudent.add(stu);
 	        }
 	        resultSet.close();
@@ -53,12 +55,13 @@ public class StudentDAO {
 		     pStatement.setString(4,"%"+myid+"%");
 		     
 		     ResultSet resultSet = pStatement.executeQuery(); 
-		     Dep dep = new Dep();
+		     Dep dep;
 		     if (resultSet.next()) {
 		    	 String id = resultSet.getString("id");
 		         String fname = resultSet.getString("fname");
 		         String lname = resultSet.getString("lname");
 		         String tel = resultSet.getString("tel");
+		         dep = new Dep();
 		         dep.setId_dep(resultSet.getString("id_dep"));
 		         dep.setName_dep(resultSet.getString("name_dep"));
 		         stu = new Student(id, fname, lname, tel,dep);    
@@ -80,7 +83,6 @@ public class StudentDAO {
 				pStatement.setString(2, stu.getFname());
 				pStatement.setString(3, stu.getLname());
 				pStatement.setString(4, stu.getTel());
-//				pStatement.setString(5, stu.getDep().getId_dep());
 				pStatement.setString(5, stu.getDep().getId_dep());
 				int row = pStatement.executeUpdate();
 				System.out.println(row);

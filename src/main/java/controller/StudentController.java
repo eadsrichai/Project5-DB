@@ -56,13 +56,14 @@ public class StudentController extends HttpServlet {
 			String lname = request.getParameter("lname");
 			String tel = request.getParameter("tel");
 		
-			String id_dep = "09";
+			String id_dep = request.getParameter("id_dep");
 			Dep dep = new Dep();
 			dep.setId_dep(id_dep);
 			stu = new Student(id,fname,lname,tel,dep);
 			try {
 				studao.addStudent(stu);
 				stuList = (List<Student>) studao.listAllStudent(); // วัตถุ studao ทำการเรียก method listAllStudent()
+				System.out.println(stuList.get(0).getDep().getId_dep() + stuList.get(0).getDep().getName_dep());
 				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
 				RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
 				rd.forward(request, response);	

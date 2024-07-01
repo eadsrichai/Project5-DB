@@ -39,7 +39,17 @@
                         placeholder="เบอร์โทร" aria-label="เบอร์โทร">
                 </div>
                 
+                <div class="col-2">
+					<select name="id_dep" class="form-control" >
+					  <option value="00">--- เลือกสาขาวิชา ----</option>
+					  <option value="09">เทคโนโลยีสารสนเทศ</option>
+					  <option value="08">ธุรกิจดิจิทัล</option>
+					</select>
+                    
+                </div>
+                
             </div>
+            
         </fieldset>
         <div class="row p-3">
             <div class="col-2">
