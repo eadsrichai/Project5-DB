@@ -89,7 +89,40 @@ public class StudentController extends HttpServlet {
 			
 		
 			
-		}else {
+		}else if(request.getParameter("submit")!= null && request.getParameter("submit").equals("Update")) {
+			String id = request.getParameter("id");
+			System.out.println(id);
+			stu = new Student();
+			try {
+				
+				stu = studao.searchStudent(id);
+				System.out.println(stu.getFname());
+				session.setAttribute("studentList", stu );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
+				RequestDispatcher rd=request.getRequestDispatcher("frmupdatestudent.jsp");
+				rd.forward(request, response);	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}else if(request.getParameter("submit")!= null && request.getParameter("submit").equals("UpdateStudent")) {
+			String id = request.getParameter("id");
+			String fname = request.getParameter("fname");
+			String lname = request.getParameter("lname");
+			String tel = request.getParameter("tel");
+			Dep dep = new Dep();
+			String id_dep = request.getParameter("id_dep");
+			dep.setId_dep(id_dep);
+			stu = new Student(id,fname,lname,tel,dep);
+			try {
+				studao.updateStudent(stu);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		
+		else {
 			try {
 				stuList = (List<Student>) studao.listAllStudent(); // วัตถุ studao ทำการเรียก method listAllStudent()
 				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList

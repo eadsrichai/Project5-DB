@@ -31,7 +31,15 @@
 						<input type="submit" class="btn btn-danger btn-sm" name="submit" value="ลบ" />
 						<input type="hidden" name="id" value="<%out.print(stuList.get(i).getId());%>"/>
 					</form>
-				</td>	
+				</td>
+				
+				<td>
+					<form action="StudentController" method="get">
+						<input type="submit" class="btn btn-warning btn-sm" name="submit" value="Update" />
+						<input type="hidden" name="id" value="<%out.print(stuList.get(i).getId());%>"/>
+					</form>
+				</td>
+					
 			</tr>
 			<% } %>
 		</tbody>
