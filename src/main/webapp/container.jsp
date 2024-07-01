@@ -26,8 +26,14 @@
 				<td><%out.print(stuList.get(i).getLname());%></td>
 				<td><%out.print(stuList.get(i).getTel());%></td>
 				<td><%out.print(stuList.get(i).getDep().getName_dep());%></td>
+				<td>
+					<form action="StudentController" method="get">
+						<input type="submit" class="btn btn-danger btn-sm" name="submit" value="ลบ" />
+						<input type="hidden" name="id" value="<%out.print(stuList.get(i).getId());%>"/>
+					</form>
+				</td>	
 			</tr>
-			<%	}	%>
+			<% } %>
 		</tbody>
 	</table>
 </div> 

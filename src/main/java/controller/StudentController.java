@@ -73,6 +73,22 @@ public class StudentController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(request.getParameter("submit")!= null && request.getParameter("submit").equals("ลบ")){
+			String id = request.getParameter("id");
+			studao.delStudent(id);
+			try {
+				stuList = (List<Student>) studao.listAllStudent();
+				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
+				RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+				rd.forward(request, response);	
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // วัตถุ studao ทำการเรียก method listAllStudent()
+			
+		
+			
 		}else {
 			try {
 				stuList = (List<Student>) studao.listAllStudent(); // วัตถุ studao ทำการเรียก method listAllStudent()
@@ -82,7 +98,6 @@ public class StudentController extends HttpServlet {
 				
 			} catch (SQLException e) {	e.printStackTrace();	}
 		}
-			
 	}
 
 		
