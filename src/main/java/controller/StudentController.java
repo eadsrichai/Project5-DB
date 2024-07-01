@@ -115,6 +115,10 @@ public class StudentController extends HttpServlet {
 			stu = new Student(id,fname,lname,tel,dep);
 			try {
 				studao.updateStudent(stu);
+				stuList = (List<Student>) studao.listAllStudent();
+				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
+				RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+				rd.forward(request, response);	
 			} catch (SQLException e) {
 				
 				e.printStackTrace();

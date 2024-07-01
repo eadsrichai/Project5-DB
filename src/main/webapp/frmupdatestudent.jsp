@@ -25,12 +25,12 @@
             
             
             
-            <form action="StudentController" method="POST">
+            <form action="StudentController" method="get">
             <fieldset class="border border-1 border-primary mt-3 rounded">
                 <legend></legend>
             <div class="row p-3">
                 <div class="col-4">
-                    <input type="text" class="form-control" name="id" value="<%out.print(stu.getId()); %>"
+                    <input type="text" readonly="readonly" class="form-control" name="id" value="<%out.print(stu.getId()); %>"
                         placeholder="รหัสนักศึกษา" aria-label="รหัสนักศึกษา">
                 </div>
             </div>
@@ -53,22 +53,30 @@
                     	value="<%out.print(stu.getTel()); %>"
                         placeholder="เบอร์โทร" aria-label="เบอร์โทร">
                 </div>
-                
+                <% if(stu.getDep().getId_dep().equals("09")){ %>
                 <div class="col-2">
 					<select name="id_dep" class="form-control" >
-					  <option value="00">--- เลือกสาขาวิชา ----</option>
-					  <option value="09">เทคโนโลยีสารสนเทศ</option>
+					  <option selected="selected" value="09">เทคโนโลยีสารสนเทศ</option>
 					  <option value="08">ธุรกิจดิจิทัล</option>
 					</select>
                     
                 </div>
+                <% }else if(stu.getDep().getId_dep().equals("08")) { %>
+                 <div class="col-2">
+					<select name="id_dep" class="form-control" >
+					  <option value="09">เทคโนโลยีสารสนเทศ</option>
+					  <option selected="selected" value="08">ธุรกิจดิจิทัล</option>
+					</select>
+                    
+                </div>
+                <% } %>
                 
             </div>
             
         </fieldset>
         <div class="row p-3">
             <div class="col-2">
-                <input type="submit" class="btn btn-primary" name="submit" value="save"/>
+                <input type="submit" class="btn btn-primary" name="submit" value="UpdateStudent"/>
             </div>
             
         </div>
