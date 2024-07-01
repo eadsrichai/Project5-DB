@@ -7,11 +7,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Dep;
 import model.Student;
 import model.StudentDAO;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,14 +55,18 @@ public class StudentController extends HttpServlet {
 			String fname = request.getParameter("fname");
 			String lname = request.getParameter("lname");
 			String tel = request.getParameter("tel");
-			
-			stu = new Student(id,fname,lname,tel);
+		
+			String id_dep = "09";
+			Dep dep = new Dep();
+			dep.setId_dep(id_dep);
+			stu = new Student(id,fname,lname,tel,dep);
 			try {
 				studao.addStudent(stu);
 				stuList = (List<Student>) studao.listAllStudent(); // วัตถุ studao ทำการเรียก method listAllStudent()
 				session.setAttribute("studentList", stuList );      // นำข้อมูลใน stuList เก็บไว้ที่ session studentList
 				RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
 				rd.forward(request, response);	
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -78,7 +84,7 @@ public class StudentController extends HttpServlet {
 			
 	}
 
-	
+		
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub

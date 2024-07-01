@@ -7,43 +7,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 public class StudentDAO {
-	private Student student;
-	private Connection con;
+		private Student student;
+		private Connection con;
+		
 		public StudentDAO() {
-			try {
-	//			Class.forName("com.mysql.cj.jdbc.Driver");  for mysql
-	//			String dbURL = "jdbc:mysql://localhost/user2?characterEncoding=utf-8";
-				Class.forName("org.mariadb.jdbc.Driver");
-				String dbURL = "jdbc:mariadb://localhost:3307/user2?characterEncoding=utf-8";
-				con = DriverManager.getConnection(dbURL, "user2", "asdf");
-				System.out.println("Connect DB OK");
-	
-			} catch (ClassNotFoundException e) {
-				System.out.print("ค้นหาคลาสไม่เจอ" + e.getMessage());
-			} catch (SQLException e) {
-				System.out.print("คำสั่ง sql ไม่ถูกต้อง" + e.getMessage());
-			}
-		}
-		public void closeConnection() throws SQLException {
-			con.close();
+			con = new ConnectDB().getConnection();
 		}
 		
 		public List<Student> listAllStudent() throws SQLException {
 	        List<Student> listStudent = new ArrayList<>();
 	         
-	        String sql = "SELECT  id,fname,lname,tel FROM re ORDER BY id ASC ";
+	        String sql = "SELECT  r.id,r.fname,r.lname,r.tel,d.id_dep,d.name_dep "
+	        			+ "FROM re r,dep d "
+	        			+ "WHERE r.id_dep = d.id_dep "
+	        			+ "ORDER BY id ASC ";
 	                   
 	        PreparedStatement pStatement = con.prepareStatement(sql);
 
 	        ResultSet resultSet = pStatement.executeQuery();
-
+	        Dep dep = new Dep();
+	        
 	        while (resultSet.next()) {
 	            String id = resultSet.getString("id");
 	            String fname = resultSet.getString("fname");
 	            String lname = resultSet.getString("lname");
 	            String tel = resultSet.getString("tel");
+	            dep.setId_dep(resultSet.getString("id_dep"));
+	            dep.setName_dep(resultSet.getString("name_dep"));
 	             
-	            Student stu = new Student(id, fname, lname, tel);
+	            Student stu = new Student(id, fname, lname, tel,dep);
 	            listStudent.add(stu);
 	        }
 	        resultSet.close();
@@ -53,20 +45,23 @@ public class StudentDAO {
 		
 		public Student searchStudent(String myid) throws SQLException {
 			Student stu = null;
-			String sql = "SELECT * FROM re WHERE id = ? OR fname like ? OR lname like ? OR tel like ?";
+			String sql = "SELECT r.id,r.fname,r.lname,r.tel,d.id_dep,d.name_dep FROM re r,dep d WHERE r.id_dep = d.id_dep AND id = ? OR fname like ? OR lname like ? OR tel like ?";
 		     PreparedStatement pStatement = con.prepareStatement(sql);
 		     pStatement.setString(1,myid);
 		     pStatement.setString(2,"%"+myid+"%");
 		     pStatement.setString(3,"%"+myid+"%");
 		     pStatement.setString(4,"%"+myid+"%");
 		     
-		     ResultSet resultSet = pStatement.executeQuery();    
+		     ResultSet resultSet = pStatement.executeQuery(); 
+		     Dep dep = new Dep();
 		     if (resultSet.next()) {
 		    	 String id = resultSet.getString("id");
 		         String fname = resultSet.getString("fname");
 		         String lname = resultSet.getString("lname");
 		         String tel = resultSet.getString("tel");
-		         stu = new Student(id, fname, lname, tel);    
+		         dep.setId_dep(resultSet.getString("id_dep"));
+		         dep.setName_dep(resultSet.getString("name_dep"));
+		         stu = new Student(id, fname, lname, tel,dep);    
 		     }
 		     resultSet.close();
 		     return stu;
@@ -79,18 +74,21 @@ public class StudentDAO {
 			
 			PreparedStatement pStatement;
 			try {
-				String sql = "INSERT INTO re(id,fname,lname,tel) VALUES(?,?,?,?)";
+				String sql = "INSERT INTO re(id,fname,lname,tel,id_dep) VALUES(?,?,?,?,?)";
 				pStatement = con.prepareStatement(sql);
 				pStatement.setString(1, stu.getId());
 				pStatement.setString(2, stu.getFname());
 				pStatement.setString(3, stu.getLname());
 				pStatement.setString(4, stu.getTel());
-				
+//				pStatement.setString(5, stu.getDep().getId_dep());
+				pStatement.setString(5, stu.getDep().getId_dep());
 				int row = pStatement.executeUpdate();
 				System.out.println(row);
 				ans = true;	
+				pStatement.close();
 			}catch (SQLException e) {	e.printStackTrace();	}
 			}else { System.out.print("มีข้อมูลอยู่แล้ว ไม่สามารถเพิ่มได้");}
+		
 			return ans;
 		}
 
@@ -100,15 +98,18 @@ public class StudentDAO {
 			if(searchStudent(stu.getId()) != null) {
 			PreparedStatement pStatement;
 			try {
-				String sql = "UPDATE  re SET  fname = ?, lname = ?, tel = ? WHERE id = ?";
+				String sql = "UPDATE  re SET  fname = ?, lname = ?, tel = ?, id_dep = ? WHERE id = ?";
 				pStatement = con.prepareStatement(sql);
 				pStatement.setString(1,stu.getFname());
 				pStatement.setString(2,stu.getLname());
 				pStatement.setString(3,stu.getTel());
-				pStatement.setString(4,stu.getId());
+				pStatement.setString(4,stu.getDep().getId_dep());
+				pStatement.setString(5,stu.getId());
+				
 				int row = pStatement.executeUpdate();
 				System.out.println(row);
 				ans = true;	
+				pStatement.close();
 			}catch (SQLException e) {	e.printStackTrace();	}
 			}
 			return ans;

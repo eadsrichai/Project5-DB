@@ -5,7 +5,16 @@ public class Student {
 	private String fname;
 	private String lname;
 	private String tel;
+	private Dep dep;
 	
+	public Dep getDep() {
+		return dep;
+	}
+
+	public void setDep(Dep dep) {
+		this.dep = dep;
+	}
+
 	public Student() {}
 	
 	public Student(String id, String fname, String lname, String tel) {
@@ -13,6 +22,14 @@ public class Student {
 		this.fname = fname;
 		this.lname = lname;
 		this.tel = tel;
+	}
+
+	public Student(String id, String fname, String lname, String tel, Dep dep) {
+		this.id = id;
+		this.fname = fname;
+		this.lname = lname;
+		this.tel = tel;
+		this.dep = dep;
 	}
 
 	public String getId() {

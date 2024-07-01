@@ -15,6 +15,7 @@
 			<tr>
 				<th scope="col">รหัส</th><th scope="col">ชื่อ</th>
 				<th scope="col">สกุล</th><th scope="col">เบอร์โทร</th>
+				<th scope="col">สาขาวิชา</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,6 +25,7 @@
 				<td><%out.print(stuList.get(i).getFname());%></td>
 				<td><%out.print(stuList.get(i).getLname());%></td>
 				<td><%out.print(stuList.get(i).getTel());%></td>
+				<td><%out.print(stuList.get(i).getDep().getName_dep());%></td>
 			</tr>
 			<%	}	%>
 		</tbody>
